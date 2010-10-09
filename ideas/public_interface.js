@@ -1,12 +1,19 @@
 
-var ws_router = require("ws_router");
-var app = ws_router.createServer();
+var ws = require("websocket-server")
+  , router = require("nws-router");
 
-app.on('/', function(connection){
+var server = ws.createServer({
+  debug: true
+});
+
+server.use(router);
+
+// Our events:
+server.on('/', function(connection){
 
 });
 
-app.on('/chat/:room', function(connection, params){
+server.on('/chat/:room', function(connection, params){
   connection.storage.push("channels", params["room"]);
   
   // do the various logic.
@@ -15,4 +22,4 @@ app.on('/chat/:room', function(connection, params){
   });
 });
 
-app.listen(8080);
+server.listen(8080);
